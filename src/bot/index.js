@@ -210,11 +210,11 @@ module.exports = (db) => {
     asyncWrapper(async (ctx) => await ctx.scene.enter('settings'))
   );
   bot.hears(match('keyboards.main_keyboard.about'), updateUserTimestamp, asyncWrapper(about));
-  bot.hears(
-    match('keyboards.main_keyboard.contact'),
-    updateUserTimestamp,
-    asyncWrapper(async (ctx) => await ctx.scene.enter('contact'))
-  );
+  // bot.hears(
+  //   match('keyboards.main_keyboard.contact'),
+  //   updateUserTimestamp,
+  //   asyncWrapper(async (ctx) => await ctx.scene.enter('contact'))
+  // );
   bot.hears(
     match('keyboards.back_keyboard.back'),
     asyncWrapper(async (ctx) => {

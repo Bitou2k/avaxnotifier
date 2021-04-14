@@ -35,7 +35,8 @@ start.enter(async (ctx) => {
     });
 
     await newUser.save();
-    await ctx.reply('Choose language / Выбери язык', getLanguageKeyboard());
+    // await ctx.reply('Choose language / Выбери язык', getLanguageKeyboard());
+    await ctx.reply('Choose language', getLanguageKeyboard());
   }
 });
 

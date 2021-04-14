@@ -13,7 +13,7 @@ function getLanguageKeyboard() {
     ...Markup.inlineKeyboard(
       [
         Markup.button.callback(`English`, JSON.stringify({ a: 'languageChange', p: 'en' }), false),
-        Markup.button.callback(`Русский`, JSON.stringify({ a: 'languageChange', p: 'ru' }), false)
+        // Markup.button.callback(`Русский`, JSON.stringify({ a: 'languageChange', p: 'ru' }), false)
       ],
     )
   };
