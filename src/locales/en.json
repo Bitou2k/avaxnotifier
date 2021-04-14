@@ -7,7 +7,7 @@
       "lets_go": "Let's go!"
     },
     "about": {
-      "main": "Hey! First of all, thanks for activating me!\n\nHave you ever had a moments when you want to get notification about your AVAX address activity? \n\nMy author was in such situation quite a lot of time. And that's exactly why he created me. I help him to track any AVAX addresses he wants, I'm sending him a message about it and he never misses address activity. I can help you with it as well! Just go search for a address and add it to your list and I'll write you back once some activity happen with it! If you want to check my source code, you could do it right here: https://github.com/crmn111/avaxnotifier/"
+      "main": "Hey! thanks for activating me!\n\n Ude this bot to get notifications about your AVAX address activity \n\n You can watch mutiple addresses and add them to a list of interesting AVAX address list. \n\n If you a a node address you will get more node specific messages. \n\n  If you want to check my source code, you could do it right here: https://github.com/crmn111/avaxnotifier/"
     },
     "addresses": {
       "chosen_address": "You've chosen address: ${title}",
