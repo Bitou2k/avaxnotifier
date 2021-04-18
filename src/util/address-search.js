@@ -5,10 +5,12 @@ const { avax } = require('./search-providers');
 const ADDRESS_TTL = 3;
 
 const addressSearchWrapper = (provider) => async (ctx) => {
-  let address = ctx.message.text;
+  const address = ctx.message.text;
+  const userId = String(ctx.from.id);
 
   const rawResult = await provider({
     address,
+    userId,
   });
 
   // logger.debug(

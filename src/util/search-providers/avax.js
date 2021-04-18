@@ -3,6 +3,7 @@
 const get = require('lodash/get')
 const { setup } = require('axios-cache-adapter')
 const shortNodeId = require('../shortNodeId')
+const cyrb53 = require('../cyrb53')
 
 const api = setup({
   cache: {
@@ -41,15 +42,15 @@ async function avax(params) {
     // result = await imdbAPI.search({ name: params.title, year: params.year }, IMDB_SEARCH_PARAMS);
     result = await searchAddress(params.address)
 
-    console.log(params.address, result)
+    console.log(params.address, params.userId, result)
 
     return result.map(item => {
       const address = get(item, 'data.address')
       return {
-        id: shortNodeId(params.address),
-        address: params.address,
-        title: shortNodeId(params.address),
-        posterUrl: `https://explorer.avax.network/address/${params.address}`
+        id: cyrb53(`${params.userId}:${address}`),
+        address: address,
+        title: shortNodeId(address),
+        posterUrl: `https://explorer.avax.network/address/${address}`
       }
     });
   } catch (e) {
