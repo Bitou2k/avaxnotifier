@@ -47,7 +47,7 @@ async function avax(params) {
     return result.map(item => {
       const address = get(item, 'data.address')
       return {
-        id: cyrb53(`${params.userId}:${address}`),
+        id: cyrb53(address),
         address: address,
         title: shortNodeId(address),
         posterUrl: `https://explorer.avax.network/address/${address}`
