@@ -1,4 +1,4 @@
-const debug = require('debug')('app:jobs:send-tweet')
+const debug = require('debug')('app:jobs:clean-completed-jobs')
 
 const handler = agenda => async job => {
   debug()
