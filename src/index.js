@@ -16,7 +16,7 @@ const setupBot = require('./bot')
 // const addSendRedditAdJob = require('./jobs/send-reddit-ad')
 // const addSearchTweetsJob = require('./jobs/search-tweets')
 // const addSendRetweetJob = require('./jobs/send-retweet')
-// const addCleanCompletedJobsJob = require('./jobs/clean-completed-jobs')
+const addCleanCompletedJobsJob = require('./jobs/clean-completed-jobs')
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -53,7 +53,7 @@ const agenda = new Agenda({
 // addSendRedditAdJob.job(agenda)
 // addSearchTweetsJob.job(agenda)
 // addSendRetweetJob.job(agenda)
-// addCleanCompletedJobsJob.job(agenda)
+addCleanCompletedJobsJob.job(agenda)
 
 const graceful = (event) => async () => {
   await agenda.stop();
@@ -73,7 +73,7 @@ process.on('SIGINT' , graceful('SIGINT'));
 
   // await agenda.every('1 hour', ['search tweets']);
 
-  // await agenda.every('1 day', ['clean completed jobs']);
+  await agenda.every('1 day', ['clean completed jobs']);
 
   await agenda.cancel({ nextRunAt: null }, (err, numRemoved) => {
     debug(err);
