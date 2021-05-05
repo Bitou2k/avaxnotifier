@@ -16,11 +16,13 @@ const setupBot = require('./bot')
 // const addSendRedditAdJob = require('./jobs/send-reddit-ad')
 // const addSearchTweetsJob = require('./jobs/search-tweets')
 // const addSendRetweetJob = require('./jobs/send-retweet')
+const addCheckTransactionsJob = require('./jobs/check-transactions')
 const addCleanCompletedJobsJob = require('./jobs/clean-completed-jobs')
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 const db = mongoose.connection;
 
@@ -53,6 +55,7 @@ const agenda = new Agenda({
 // addSendRedditAdJob.job(agenda)
 // addSearchTweetsJob.job(agenda)
 // addSendRetweetJob.job(agenda)
+addCheckTransactionsJob.job(agenda)
 addCleanCompletedJobsJob.job(agenda)
 
 const graceful = (event) => async () => {
@@ -66,6 +69,8 @@ process.on('SIGINT' , graceful('SIGINT'));
 
 (async function() { // IIFE to give access to async/await
   await agenda.start();
+
+  await agenda.every('1 minute', ['check transactions'])
 
   // await agenda.every('10 minutes', ['check cycle', 'check payouts']);
 
