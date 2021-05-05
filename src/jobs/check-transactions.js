@@ -55,7 +55,7 @@ const handler = agenda => async job => {
   }
 
   const indexOfStoredTransaction = transactions.indexOf(
-    transactions.find(transaction => transaction.id === botStats.latestCheckedTransaction)
+    transactions.find(transaction => botStats && transaction.id === botStats.latestCheckedTransaction)
   )
 
   debug({ indexOfStoredTransaction })
