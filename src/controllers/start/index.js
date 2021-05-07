@@ -18,6 +18,10 @@ start.enter(async (ctx) => {
   const { mainKeyboard } = getMainKeyboard(ctx);
 
   if (user) {
+    if (user.active !== true) {
+      user.active = true
+      await user.save()
+    }
     await ctx.reply(ctx.i18n.t('scenes.start.welcome_back'), mainKeyboard);
   } else {
     // logger.debug(ctx, 'New user has been created');
@@ -25,6 +29,7 @@ start.enter(async (ctx) => {
 
     const newUser = new User({
       _id: uid,
+      active: true,
       username: ctx.from.username,
       first_name: ctx.from.first_name,
       last_name: ctx.from.last_name,

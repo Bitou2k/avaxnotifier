@@ -113,7 +113,7 @@ const { getUserInfo } = require('../middlewares/user-info');
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
-module.exports = (db) => {
+// module.exports = (db) => {
   // const stage = new Scenes.Stage([addressDataWizard]);
   // // bot.use(session()); // to  be precise, session is not a must have for Scenes to work, but it sure is lonely without one
 
@@ -267,5 +267,7 @@ module.exports = (db) => {
     console.log(error)
   });
 
-  return bot
-}
+//   return bot
+// }
+
+module.exports = bot

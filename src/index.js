@@ -3,13 +3,13 @@ const Agenda = require('agenda')
 
 require('dotenv').config()
 
-let bot
-const setupBot = require('./bot')
+let bot = require('./bot')
+// const setupBot
 
 // const addCheckCycleJob = require('./jobs/check-cycle')
 // const addSendMessageJob = require('./jobs/send-message')
 // const addcheckPayoutsJob = require('./jobs/check-payouts')
-// const addSendPayoutMessageJob = require('./jobs/send-payout-message')
+const addSendTransactionMessageJob = require('./jobs/send-transaction-message')
 // const addSendTweetJob = require('./jobs/send-tweet')
 // const addSendTweetToRedditJob = require('./jobs/send-tweet-to-reddit')
 // const addSendTweetToTelegramJob = require('./jobs/send-tweet-to-telegram')
@@ -30,7 +30,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
 
-  bot = setupBot(db)
+  // bot = setupBot(db)
 
   bot.launch()
 });
@@ -48,7 +48,7 @@ const agenda = new Agenda({
 // addCheckCycleJob.job(agenda)
 // addSendMessageJob.job(agenda)
 // addcheckPayoutsJob.job(agenda)
-// addSendPayoutMessageJob.job(agenda)
+addSendTransactionMessageJob.job(agenda)
 // addSendTweetJob.job(agenda)
 // addSendTweetToRedditJob.job(agenda)
 // addSendTweetToTelegramJob.job(agenda)
