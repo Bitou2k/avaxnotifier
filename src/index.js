@@ -10,7 +10,7 @@ let bot = require('./bot')
 // const addSendMessageJob = require('./jobs/send-message')
 // const addcheckPayoutsJob = require('./jobs/check-payouts')
 const addSendTransactionMessageJob = require('./jobs/send-transaction-message')
-// const addSendTweetJob = require('./jobs/send-tweet')
+const addCheckAssetsJob = require('./jobs/check-assets')
 // const addSendTweetToRedditJob = require('./jobs/send-tweet-to-reddit')
 // const addSendTweetToTelegramJob = require('./jobs/send-tweet-to-telegram')
 // const addSendRedditAdJob = require('./jobs/send-reddit-ad')
@@ -49,7 +49,7 @@ const agenda = new Agenda({
 // addSendMessageJob.job(agenda)
 // addcheckPayoutsJob.job(agenda)
 addSendTransactionMessageJob.job(agenda)
-// addSendTweetJob.job(agenda)
+addCheckAssetsJob.job(agenda)
 // addSendTweetToRedditJob.job(agenda)
 // addSendTweetToTelegramJob.job(agenda)
 // addSendRedditAdJob.job(agenda)
@@ -78,7 +78,7 @@ process.on('SIGINT' , graceful('SIGINT'));
 
   // await agenda.every('1 hour', ['search tweets']);
 
-  await agenda.every('1 day', ['clean completed jobs']);
+  await agenda.every('1 day', ['clean completed jobs', 'check assets']);
 
   await agenda.cancel({ nextRunAt: null }, (err, numRemoved) => {
     debug(err);

@@ -6,6 +6,7 @@ const Transaction = require('../models/transaction')
 const Address = require('../models/address')
 const BotStats = require('../models/bot-stats')
 const User = require('../models/user')
+const Asset = require('../models/asset')
 
 const MESSAGES_PER_JOB = 30
 
@@ -140,23 +141,37 @@ const handler = agenda => async job => {
   const transactionsAddresses = transactions
     .filter((transaction, index) => indexOfStoredTransaction >= 0 ? index < indexOfStoredTransaction : true)
     .map(transaction => {
-      const inputAddresses = transaction.inputs
+      const inputAddresses = (transaction.inputs || [])
         .map(input => {
           return input.output.addresses
         })
         .reduce((result, current) => result.concat(current), [])
-      const outputAddresses = transaction.outputs
+      const outputAddresses = (transaction.outputs || [])
         .map(output => {
           return output.addresses
         })
         .reduce((result, current) => result.concat(current), [])
+
+      const inputAssets = (transaction.inputs || [])
+        .map(input => {
+          return input.output.assetID
+        })
+        .reduce((result, current) => result.concat(current), [])
+      const outputAssets = (transaction.outputs || [])
+        .map(output => {
+          return output.assetID
+        })
+        .reduce((result, current) => result.concat(current), [])
+
       return {
         id: transaction.id,
         addresses: Array.from(new Set(inputAddresses.concat(outputAddresses))),
+        assets: Array.from(new Set(inputAssets.concat(outputAssets))),
       }
     })
   const transactionsAddressesHash = transactionsAddresses
     .reduce((result, current) => ({ ...result, [current.id]: current }), {})
+
   const addresses = transactionsAddresses
     .reduce((result, current) => result.concat(current.addresses), [])
   const uniqueAddreses = Array.from(new Set(addresses))
@@ -176,6 +191,21 @@ const handler = agenda => async job => {
   if (!storedAddresses.length) {
     debug('No transaction for stored address')
   }
+
+  const assets = transactionsAddresses
+    .reduce((result, current) => result.concat(current.assets), [])
+  const uniqueAssets = Array.from(new Set(assets))
+
+  const storedAssets = await Asset
+    .find({ _id: { $in: uniqueAssets } })
+    .lean()
+    .exec()
+
+  debug({
+    assets: assets.length,
+    uniqueAssets,
+    storedAssets: storedAssets.length
+  })
 
   const transactionsHash = transactions
     .reduce((result, current) => ({ ...result, [current.id]: current }), {})
@@ -227,7 +257,13 @@ const handler = agenda => async job => {
 
       const data = {
         id: receiver.id,
-        transaction: transactionData
+        transaction: transactionData,
+        assets: storedAssets
+          .filter(asset => {
+            return transactionsAddressesHash[transaction.id].assets
+              .includes(asset._id)
+          })
+          .reduce((result, current) => ({ ...result, [current._id]: current.symbol }), {})
       }
       messages.push(data)
 
