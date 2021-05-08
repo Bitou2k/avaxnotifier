@@ -247,7 +247,8 @@ const handler = agenda => async job => {
           }).length > 0
       })
       .map(user => ({
-        id: user._id
+        id: user._id,
+        observableAddresses: user.observableAddresses,
       }))
 
     const transactionData = prepareTransaction(transaction)
@@ -257,6 +258,12 @@ const handler = agenda => async job => {
 
       const data = {
         id: receiver.id,
+        addresses: receiver.observableAddresses
+          .filter(addressItem => {
+            return transactionsAddressesHash[transaction.id].addresses
+              .includes(storedAddressesIdsItemsHash[addressItem._id])
+          })
+          .map(addressItem => addressItem.address),
         transaction: transactionData,
         assets: storedAssets
           .filter(asset => {

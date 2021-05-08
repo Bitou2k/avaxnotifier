@@ -16,7 +16,7 @@ ${data.transaction.inputs
   .slice()
   .sort(compareNumbers)
   .map(input => {
-    return `💰 ${(input.amount / 1000000000).toFixed(2)} ${data.assets[input.assetID]} from [${getShortAddress(input.address)}](https://explorer.avax.network/address/${input.address})`
+    return `${data.addresses.includes(input.address) ? '*' : ''}💰 ${(input.amount / 1000000000).toFixed(2)} ${data.assets[input.assetID]}${data.addresses.includes(input.address) ? '*' : ''} from [${getShortAddress(input.address)}](https://explorer.avax.network/address/${input.address})`
   })
   .join('\n')}
 ` : ''}
@@ -26,7 +26,7 @@ ${data.transaction.outputs
   .slice()
   .sort(compareNumbers)
   .map(output => {
-    return `💰 ${(output.amount / 1000000000).toFixed(2)} ${data.assets[output.assetID]} to [${getShortAddress(output.address)}](https://explorer.avax.network/address/${output.address})`
+    return `${data.addresses.includes(output.address) ? '*' : ''}💰 ${(output.amount / 1000000000).toFixed(2)} ${data.assets[output.assetID]}${data.addresses.includes(output.address) ? '*' : ''} to [${getShortAddress(output.address)}](https://explorer.avax.network/address/${output.address})`
   })
   .join('\n')}
 ` : ''}
