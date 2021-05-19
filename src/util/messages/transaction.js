@@ -1,6 +1,6 @@
 const maxTransactionsToShowDefault = 10
 
-const getShortAddress = (address) => address ? `${address.substring(0, 6)}...${address.substring(32)}` : ''
+const getShortAddress = (address) => address ? `${address.substring(0, 6)}...${address.substring(address.length - 4)}` : ''
 
 function compareNumbers(a, b) {
   return (b.amount / 1000000000) - (a.amount / 1000000000);
