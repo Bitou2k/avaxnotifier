@@ -1,7 +1,7 @@
 const bot = require('../bot')
 const User = require('../models/user')
-const getTransactionMessage = require('../util/messages/transaction')
-const debug = require('debug')('app:jobs:send-transaction-message')
+const getMessage = require('../util/messages/delegation-end')
+const debug = require('debug')('app:jobs:send-delegation-end-message')
 
 const handler = async job => {
   const data = job.attrs.data;
@@ -14,7 +14,7 @@ const handler = async job => {
     try {
       await bot.telegram.sendMessage(
         `${message.id}`,
-        getTransactionMessage(message),
+        getMessage(message),
         {
           parse_mode: 'Markdown',
           disable_web_page_preview: true
@@ -34,5 +34,5 @@ const handler = async job => {
 
 module.exports = {
   handler,
-  job: agenda => agenda.define('send transaction message', handler)
+  job: agenda => agenda.define('send delegation end message', handler)
 }

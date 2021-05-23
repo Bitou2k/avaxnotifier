@@ -1,22 +1,10 @@
+const {
+  getShortAddress,
+  prepareAddress,
+  prepareShortAddress,
+} = require('./common')
+
 const maxTransactionsToShowDefault = 10
-
-const getShortAddress = (address) => address ? `${address.substring(0, 6)}...${address.substring(address.length - 4)}` : ''
-
-const prepareChainID = (chainID) => {
-  if (chainID === '11111111111111111111111111111111LpoYY') {
-    return 'P-'
-  }
-  if (chainID === '2oYMBNV4eNHyqk2fjjV5nVQLDbtmNJzq5s3qs3Lo6ftnC6FByM') {
-    return 'X-'
-  }
-  if (chainID === '2q9e4r6Mu3U68nU1fYjgbR6JvwrRx36CohpAX5UQxse55x1Q5') {
-    return 'C-'
-  }
-  return ''
-}
-
-const prepareAddress = (address, chainID) => `${prepareChainID(chainID)}${address}`
-const prepareShortAddress = (address, chainID) => `${prepareChainID(chainID)}${getShortAddress(address)}`
 
 function compareNumbers(a, b) {
   return (b.amount / 1000000000) - (a.amount / 1000000000);
