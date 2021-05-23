@@ -70,7 +70,9 @@ const handler = agenda => async job => {
   for (delegator of delegators) {
     const receivers = users
       .filter(user => {
-        return user.observableAddresses.includes(storedAddressesIdsItemsHash[delegator.rewardOwner.replace('P-', '')])
+        return user.observableAddresses
+          .map(addressItem => addressItem._id)
+          .includes(storedAddressesIdsItemsHash[delegator.rewardOwner.replace('P-', '')])
       })
       .map(user => ({
         id: user._id,
