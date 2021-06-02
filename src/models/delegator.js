@@ -9,6 +9,7 @@ const delegatorSchema = new mongoose.Schema({
   rewardOwner: String,
   potentialReward: Number,
   notificationSent: Boolean,
+  notificationSoonSent: Boolean,
 },
 {
   timestamps: true,

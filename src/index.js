@@ -11,6 +11,7 @@ let bot = require('./bot')
 // const addcheckPayoutsJob = require('./jobs/check-payouts')
 const addSendTransactionMessageJob = require('./jobs/send-transaction-message')
 const addSendDelegationEndMessageJob = require('./jobs/send-delegation-end-message')
+const addSendDelegationEndSoonMessageJob = require('./jobs/send-delegation-end-soon-message')
 const addCheckAssetsJob = require('./jobs/check-assets')
 // const addSendTweetToRedditJob = require('./jobs/send-tweet-to-reddit')
 // const addSendTweetToTelegramJob = require('./jobs/send-tweet-to-telegram')
@@ -19,6 +20,7 @@ const addCheckAssetsJob = require('./jobs/check-assets')
 // const addSendRetweetJob = require('./jobs/send-retweet')
 const addCheckTransactionsJob = require('./jobs/check-transactions')
 const addCheckDelegationEndJob = require('./jobs/check-delegation-end')
+const addCheckDelegationEndSoonJob = require('./jobs/check-delegation-end-soon')
 const addCleanCompletedJobsJob = require('./jobs/clean-completed-jobs')
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -52,6 +54,7 @@ const agenda = new Agenda({
 // addcheckPayoutsJob.job(agenda)
 addSendTransactionMessageJob.job(agenda)
 addSendDelegationEndMessageJob.job(agenda)
+addSendDelegationEndSoonMessageJob.job(agenda)
 addCheckAssetsJob.job(agenda)
 // addSendTweetToRedditJob.job(agenda)
 // addSendTweetToTelegramJob.job(agenda)
@@ -60,6 +63,7 @@ addCheckAssetsJob.job(agenda)
 // addSendRetweetJob.job(agenda)
 addCheckTransactionsJob.job(agenda)
 addCheckDelegationEndJob.job(agenda)
+addCheckDelegationEndSoonJob.job(agenda)
 addCleanCompletedJobsJob.job(agenda)
 
 const graceful = (event) => async () => {
@@ -74,7 +78,8 @@ process.on('SIGINT' , graceful('SIGINT'));
 (async function() { // IIFE to give access to async/await
   await agenda.start();
 
-  await agenda.every('1 minute', ['check transactions', 'check delegation end'])
+  await agenda.every('1 minute', ['check transactions'])
+  await agenda.every('2 minutes', ['check delegation end', 'check delegation end soon'])
 
   // await agenda.every('10 minutes', ['check cycle', 'check payouts']);
 
